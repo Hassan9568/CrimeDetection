@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Crime Detector Signup</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+
+    {% load static %}
+    <link type="text/css" href="{% static '/css/auth_signup.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static '/css/global.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Signup Here</h3>
+
+        <label for="username">User Full Name</label>
+        <input type="text" placeholder="Username" name="username" id="username">
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email" name="email" id="email">
+
+        <label for="e_email">Emergency Email</label>
+        <input type="email" placeholder="Email should be different from above email " name="e_email" id="e_email">
+
+        <label for="password1">Password</label>
+        <input type="password" placeholder="Password" id="password1" name="password1">
+
+
+        <label for="password2">Confrom Password</label>
+        <input type="password" placeholder="Confrom Password" id="password2" name="password2">
+        <button type="submit" style="margin-bottom: 10px;">Signup</button>
+
+        <a href="{% url 'login' %}">i have already account</a>
+    </form>
+</body>
+
+</html>

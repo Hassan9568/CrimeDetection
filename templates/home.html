@@ -1,0 +1,48 @@
+ {% extends "base.html" %} {% block content %} {% load static %}
+
+ <script>
+    function submitForm() {
+        var form = document.getElementById('detect_anomaly');
+        form.submit();
+    }
+</script>
+
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .hidden-input {
+        position: absolute;
+        left: -9999px;
+        visibility: hidden;
+    }
+</style>
+
+<main class="grid  h-[80vh] place-items-center   px-6 py-24 sm:py-4 lg:px-8">
+    <div class="text-center">
+        <img class="w-auto h-16 mx-auto" src="/media/images/logo/logo.svg" alt="Crime Detector">
+        <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Automatic Crime Detector</h1>
+        <p class="mt-6 text-base leading-7 text-gray-600">Welcome back <span class="text-lg font-bold capitalize ">{{ user.name }}</span> <br />Automatic Crime Detector is an application to detect anomalies through computer vision and machine learning</p>
+        <div class="flex items-center justify-center mt-10 gap-x-6">
+
+ {% comment %} action="{% url 'detect_anomaly' %}" {% endcomment %}
+            <form id="detect_anomaly" method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+
+                <a href="{% url 'detect_anomaly' %}?openCam=true" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 shadow-lg">
+                    Start Live Cam
+                </a> &nbsp; &nbsp; 
+     
+      <input type="text"  class="hidden-input"  name="name" value={{ random_name }} maxlength="255" required id="id_name">
+     <label id="files" for="file-upload" class="text-sm font-semibold text-gray-900 cursor-pointer hover:cursor-pointer ">
+                Upload a Video <span class="text-xl bold" aria-hidden="true">&uarr;</span> 
+    <input id="file-upload" name="video_file" type="file" class="hidden-input"   onchange="submitForm()" >
+  </label> 
+
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

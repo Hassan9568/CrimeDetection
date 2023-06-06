@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Crime Detector Login</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    {% load static %}
+    <link type="text/css" href="{% static '/css/global.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static '/css/auth_login.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <form method="post">
+        <h3>Login Here</h3>
+        {% csrf_token %}
+        <label for="email">Email Id</label>
+        <input type="email" placeholder="Enter Email Id" id="email" name="email">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="pass"> {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong></strong> {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+
+
+
+        <button type="submit" style="margin-bottom: 10px;">Log In</button>
+        <a href="{% url 'signup' %}">Create a account</a>
+    </form>
+</body>
+
+</html>

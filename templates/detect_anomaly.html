@@ -1,0 +1,106 @@
+ {% extends "base.html" %} {% block content %} {% load static %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script>
+
+    function clearData() {
+        $.ajax({
+          url: "{% url 'clear_data' %}",
+          success: function(response) {
+            alert(response);
+          }
+        });
+      }
+function updateScreenshotList() {
+    $.getJSON('/screenshot_list', function(data) {
+        var screenshotList = $('#screenshot-list');
+        screenshotList.empty();
+        $.each(data.screenshot_paths, function(index, url) {
+            var newStr = url.replace(/\/(home|detect_anomaly)\//g, '/');
+            newStr =  'http://127.0.0.1:8000/' + newStr ;
+            console.log("the new string url is :", newStr);
+            console.log("the text string is :", data);
+            var container = $('<div>').addClass('inline-block mr-4 mb-4');
+            var img = $('<img>').attr({
+                'src': newStr,
+                'height': '150', // set height as desired
+                'width': '120px'
+            
+            });
+            var p = $('<p>').text(data.screenshot_names[index]);
+            var div = $('<div>').addClass('flex');
+            div.append(img).append(p);
+            screenshotList.append(div);
+        });
+        console.log("the list is :", screenshotList)
+    });
+}
+
+setInterval(updateScreenshotList, 1500); 
+
+ </script> 
+
+            {% comment %} const newStr = url.replace(/\/(home|detect_anomaly)\//g, '/'); {% endcomment %}
+<style>
+
+    #clearBtn{
+        display:block;
+        margin: auto;
+        margin-top:12px;
+        background: linear-gradient(180deg, #3949AB 22.08%, #4A0887 130.83%);
+        padding:12px;
+    }
+    #videoDisplayArea{
+        width: -webkit-fill-available;
+        margin:40px; 
+    }
+
+#screenshot-list div {
+  display: flex;
+  padding: 10px
+}
+
+#screenshot-list div img {
+  
+    border-radius: 5px;
+}
+#screenshot-list div p{ 
+    margin: auto;
+    margin-left: 10px;
+}
+
+#data_display_area{
+        height: 400px;
+        overflow-y: scroll;
+    }
+
+    
+</style>
+
+<div class="flex mt-10  flex-col lg:flex-row  mx-auto rounded-lg min-h-[80vh] mb-10 h-inherit xl:min-h-auto max-w-2xl  items-center     px-4   sm:px-6  lg:max-w-7xl ">
+  
+    <div class="mr-auto rounded-lg basis-3/4 lg:mr-10 h-inherit">
+        <div class="  flex  max-h-[90vh]  h-inherit xl:min-h-auto  max-w-2xl  items-center   lg:max-w-7xl ">
+            
+            
+            <img id="videoDisplayArea" class="border rounded-lg " src="{{ video_feed_url }}" alt="Video Feed">
+
+
+        </div>
+    </div>
+    <div class="basis-1/4 border rounded-lg h-full max-h-[400px]   m-auto">
+        <div id="data_display_area" class="m-auto flex flex-col 2xl:min-h-auto  max-w-2xl  max-h-[400px] h-[400px] overflow-y-scroll  px-4 py-4 sm:px-6   lg:max-w-7xl  lg:px-8">
+            <h2 class="m-auto text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">Details of Anomaly</h2>
+            <hr class="m-auto " style="width: 50%; text-align: center;">
+
+            <br/>
+
+            <div id="screenshot-list"></div>
+        </div>
+        <br/>
+        {{ user.e_email}}
+        <br/>
+        <button id="clearBtn" class="rounded-lg shadow-lg" onclick="clearData()" > Clear Detection List</button>
+    </div>
+</div>
+{% endblock %}
